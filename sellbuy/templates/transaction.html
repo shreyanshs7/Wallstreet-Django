@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title></title>
+	<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body onload="LoadDoc()">
+ <script language="javascript" type="text/javascript">
+
+function popitup(url) {
+    var leftPosition, topPosition;
+    //Allow for borders.
+    leftPosition = (window.screen.width / 2) - ((800 / 2) + 10);
+    //Allow for title and status bars.
+    topPosition = (window.screen.height / 2) - ((600 / 2) + 50);
+
+  newwindow=window.open(url,'name',"status=no,height=600,width=800,resizable=yes,left="
+    + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY="
+    + topPosition + ",toolbar=no,menubar=no,scrollbars=no,directories=no");
+
+  if (window.focus) {newwindow.focus()}
+  return false;
+}
+</script>
+
+  
+<div class="container">
+	 <div class="row">
+	   <div class="col s6">
+		<table class="centered" >
+			<thead class="center">
+				<th>Share Name</th>
+			</thead>
+			{% for obj in share_obj %}
+			<tr>
+		
+				<td><a href="/sharegraph/{{ obj.name }}" onclick="return popitup('/sharegraph/{{ obj.name }}')">{{ obj.name }}</a></td>
+			</tr>
+			{% endfor %}
+			
+	
+		</table>
+
+      </div>
+      <div class="col s6">
+      	<table>
+      		<thead>
+      			<th>Share Price</th>
+      		</thead>
+      		<tr id="cp">
+      		
+      		</tr>
+      	</table>
+      	
+      </div>
+  </div>
+  <button onclick="LoadDoc()">Refresh</button>
+</div>
+	<script>
+		function LoadDoc(){
+			$.get('/currentprice',function(data){
+				$("#cp").html(data);
+			});
+		}
+
+	</script>
+</body>
+</html>
