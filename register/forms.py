@@ -28,6 +28,9 @@ class RegistrationForm(forms.ModelForm):
 			if self.cleaned_data['password1'] != self.cleaned_data['password2']:
 				raise forms.ValidationError(_("The two password fields did not match."))
 			return self.cleaned_data	
+	
+
 			
+
 
 			

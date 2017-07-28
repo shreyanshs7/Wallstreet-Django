@@ -7,8 +7,8 @@ import json
 
 # Create your views here.
 
-def shareprice_api(request):
-	share_obj = SharePrice.objects.all()
+def share_api(request):
+	share_obj = Share.objects.all()
 	share_json = serializers.serialize("json",share_obj)
 	share_data = json.loads(share_json)
 	share_list = []

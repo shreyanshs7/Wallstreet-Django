@@ -3,9 +3,9 @@ from .models import *
 # Register your models here.
 
 class ShareAdmin(admin.ModelAdmin):
-	list_display = ['__str__','id','name','price']
+	list_display = ['__str__','id','name','current_price']
 admin.site.register(Share,ShareAdmin)	
 
 class SharePriceAdmin(admin.ModelAdmin):
-	list_display = ['__str__', 'name','current_price','time']
+	list_display = ['__str__','price','time']
 admin.site.register(SharePrice,SharePriceAdmin)	

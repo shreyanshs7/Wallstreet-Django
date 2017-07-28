@@ -7,7 +7,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body onload="LoadDoc()">
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
  <script language="javascript" type="text/javascript">
+
+  $(document).ready(function() {
+  	$('select').material_select('destroy');
+    $('select').material_select();
+  });
 
 function popitup(url) {
     var leftPosition, topPosition;
@@ -56,8 +62,29 @@ function popitup(url) {
       	
       </div>
   </div>
-  <button onclick="LoadDoc()">Refresh</button>
+  <button onclick="LoadDoc()">Refresh Price</button>
 </div>
+<br>
+<div class="container input-field ">
+	<form method="POST" action="{% url 'sellbuy' %}">
+		{% csrf_token %}
+			<select name="dropdown">
+				  {% for obj in share_obj %}
+				<option value="{{ obj.name }}">{{ obj.name }}</option>
+					{% endfor %}
+			</select>
+			<br>
+			<input type="number" name="quantity">
+			<br><br>
+			<input class="btn waves-effect waves-light" type="submit" name="buy" value="BUY" />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input class="btn waves-effect waves-light" type="submit" name="sell" value="SELL" />
+
+	</form>
+</div>
+	
+
+
 	<script>
 		function LoadDoc(){
 			$.get('/currentprice',function(data){

@@ -28,10 +28,11 @@ urlpatterns = [
     url(r'^login/', auth_views.login , name='login'),
     url(r'^login_check/', views.login_check , name='login_check'),
     url(r'^api/users/', api_views.users_api , name='users_api'),
-    url(r'^api/shareprice/', api_views.shareprice_api , name='share_api'),
+    url(r'^api/shareprice/', api_views.share_api , name='share_api'),
     url(r'^shareprice/', sellbuy_views.share_price , name='share_price'),
     url(r'^currentprice/', sellbuy_views.current_price , name='current_price'),
-    url(r'^sharegraph/(?P<name>\w+)/', portfolio_views.sharegraph , name='share_graph'),
+    url(r'^sharegraph/(?P<name>\w+)/', sellbuy_views.sharegraph , name='share_graph'),
+    url(r'^sellbuy/', portfolio_views.sellbuy , name='sellbuy'),
     
 
 
