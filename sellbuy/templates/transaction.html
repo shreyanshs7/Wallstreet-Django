@@ -4,22 +4,23 @@
 	{% load static %}
 	<title></title>
 	<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/static/js/jquery-3.2.1.js"></script>
 </head>
-<body onload="LoadDoc()">
+<body onload="LoadPrice()">
+<script src="/static/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="/static/js/materialize.min.js"></script>
  <script language="javascript" type="text/javascript">
 
   $(document).ready(function() {
-  	$('select').material_select('destroy');
+  		LoadQuantity();
     $('select').material_select();
   });
 
 function popitup(url) {
     var leftPosition, topPosition;
-    //Allow for borders.
+    
     leftPosition = (window.screen.width / 2) - ((800 / 2) + 10);
-    //Allow for title and status bars.
+    
     topPosition = (window.screen.height / 2) - ((600 / 2) + 50);
 
   newwindow=window.open(url,'name',"status=no,height=600,width=800,resizable=yes,left="
@@ -34,7 +35,7 @@ function popitup(url) {
   
 <div class="container">
 	 <div class="row">
-	   <div class="col s6">
+	   <div class="col s4">
 		<table class="centered" >
 			<thead class="center">
 				<th>Share Name</th>
@@ -50,47 +51,167 @@ function popitup(url) {
 		</table>
 
       </div>
-      <div class="col s6">
+      <div class="col s4">
       	<table>
       		<thead>
-      			<th>Share Price</th>
+      			<th class="center">Share Price</th>
       		</thead>
       		<tr id="cp">
       		
       		</tr>
       	</table>
       	
+      	
+      </div>
+      <div class="col s4">
+      	<table>
+      		<thead>
+      			<th class="center">Quantity</th>
+      		</thead>
+      		<tr id="cq">
+      		
+      		</tr>
+      	</table>
+      	
       </div>
   </div>
-  <button onclick="LoadDoc()">Refresh Price</button>
+  <button class="btn waves-effect waves-light red lighten-1 " onclick="LoadPrice()">Refresh Price</button>
 </div>
 <br>
 <div class="container input-field ">
-	<form method="POST" action="{% url 'sellbuy' %}">
-		{% csrf_token %}
-			<select name="dropdown">
+	<form  id="sellbuy-form">
+			{% csrf_token %}
+			<select name="dropdown" id="dropdown">
 				  {% for obj in share_obj %}
 				<option value="{{ obj.name }}">{{ obj.name }}</option>
 					{% endfor %}
 			</select>
 			<br>
-			<input type="number" name="quantity">
+			<input type="number" name="quantity" id="quantity">
 			<br><br>
-			<input class="btn waves-effect waves-light" type="submit" name="buy" value="BUY" />
+			<button class="btn waves-effect waves-light" type="submit" name="buy" id="buy" value="BUY"  >BUY</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input class="btn waves-effect waves-light" type="submit" name="sell" value="SELL" />
+			<button class="btn waves-effect waves-light" type="submit" name="sell" id="sell" value="SELL"  >SELL</button>
 
 	</form>
 </div>
 	
-
+<div>
+	<p id="response">
+		
+	</p>
+</div>	
+<div>
+	<p id="response1">
+		
+	</p>
+</div>
 
 	<script>
-		function LoadDoc(){
+
+		function LoadPrice(){
 			$.get('/currentprice',function(data){
+
 				$("#cp").html(data);
 			});
 		}
+
+		$("#buy").click(function(e){
+			
+			e.preventDefault();
+
+			var dropdown = $("#dropdown").val();
+			var quantity = $("#quantity").val();
+			var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+			var button = $(this).val();
+
+			$.ajax({
+				type : 'POST' ,
+				url : '/sellbuy/' ,
+				data :{
+					dropdown : dropdown ,
+					quantity : quantity ,
+					button : button ,
+					csrfmiddlewaretoken : csrfmiddlewaretoken 
+
+				},
+				success : function(data1){
+					LoadQuantity();
+
+
+
+					var response = $("#response1").html(data1);
+					Materialize.toast(response1, 4000);
+				}
+			});
+
+		});
+
+		$("#sell").click(function(e){
+			
+			e.preventDefault();
+
+			var dropdown = $("#dropdown").val();
+			var quantity = $("#quantity").val();
+			var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+			var button = $(this).val();
+
+			$.ajax({
+				type : 'POST' ,
+				url : '/sellbuy/' ,
+				data :{
+					dropdown : dropdown ,
+					quantity : quantity ,
+					button : button ,
+					csrfmiddlewaretoken : csrfmiddlewaretoken 
+
+				},
+				success : function(data1){
+					LoadQuantity();
+					var response = $("#response").html(data1);
+					Materialize.toast(response, 4000);
+				}
+			});
+
+		});
+
+		function LoadQuantity(){
+
+			$.get('/currentquantity' , function(data){
+				$("#cq").html(data);
+			});
+		}
+
+		
+	/*	$("#sellbuy-form").submit(function(e){
+			
+			e.preventDefault();
+
+
+			var dropdown = $("#dropdown").val();
+			var quantity = $("#quantity").val();
+			
+			
+
+			var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+			
+			$.ajax({
+				type : 'POST' ,
+				url : '/sellbuy/' ,
+				data :{
+					dropdown : dropdown ,
+					quantity : quantity ,
+					button : button ,
+					csrfmiddlewaretoken : csrfmiddlewaretoken 
+
+				},
+				success : function(data1){
+					var response = $("#response").html(data1);
+					Materialize.toast(response, 4000);
+				}
+			});
+		});
+*/
 
 	</script>
 </body>

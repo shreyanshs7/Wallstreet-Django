@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^currentprice/', sellbuy_views.current_price , name='current_price'),
     url(r'^sharegraph/(?P<name>\w+)/', sellbuy_views.sharegraph , name='share_graph'),
     url(r'^sellbuy/', portfolio_views.sellbuy , name='sellbuy'),
+    url(r'^currentquantity/', sellbuy_views.current_quantity , name='current_quantity'),
     
 
 

@@ -21,3 +21,6 @@ class SharePrice(models.Model):
 
 	def __str__(self):
 		return str(self.share.name)
+
+	class Meta:
+		get_latest_by = 'time'

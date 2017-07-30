@@ -3,7 +3,7 @@ from django.core import serializers
 from django.http import HttpResponse , JsonResponse
 from .models import * 
 from django.contrib.auth.decorators import login_required
-
+from portfolio.models import *
 from plotly.offline import plot
 from plotly.graph_objs import Bar
 
@@ -11,35 +11,37 @@ from plotly.graph_objs import Bar
 
 @login_required
 def share_price(request):
-	share_obj = Share.objects.values("name").distinct()
-	
+	share_obj = Share.objects.order_by("name").distinct()
+		
 
 	return render(request,"transaction.html",{"share_obj" :share_obj })
 
 @login_required
 def current_price(request):
-	share_obj = Share.objects.all()
+	share_obj = Share.objects.order_by("name").distinct()	
 
-	#left part for changing current share price
 	data=""
 	for obj in share_obj:
-		data+= "<tr><td class=\'center\'>"+str(obj.current_price)+"</td></tr>"
+		data+="<tr><td>"+ str(obj.current_price) +"</td></tr>"
 
-	return HttpResponse(data)		
+	return HttpResponse(data)			
+
+def current_quantity(request):
+	portfolio_obj = portfolio.objects.order_by("share_id").distinct()
+
+	data=""
+	for obj in portfolio_obj:
+		data+="<tr><td>"+str(obj.quantity)+"</td></tr>"
+
+	return HttpResponse(data)	
 
 def sharegraph(request,name):
-	shareprice_obj = SharePrice.objects.filter(share__name=name)
-
-	x=[]
-	y=[]
-
-	for obj in shareprice_obj:
-		x.append(obj.time)
-		y.append(obj.price)
+	pass 
 	
 		
 
 	return HttpResponse(plot([Bar(x=x, y=y)],auto_open=False,output_type='div'))	
+
 
 
 
