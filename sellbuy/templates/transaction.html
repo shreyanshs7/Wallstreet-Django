@@ -75,7 +75,7 @@ function popitup(url) {
       	
       </div>
   </div>
-  <button class="btn waves-effect waves-light red lighten-1 " onclick="LoadPrice()">Refresh Price</button>
+  <button class="btn waves-effect waves-light light-blue darken-4 " onclick="LoadPrice()">Refresh Price</button>
 </div>
 <br>
 <div class="container input-field ">
@@ -89,13 +89,17 @@ function popitup(url) {
 			<br>
 			<input type="number" name="quantity" id="quantity">
 			<br><br>
-			<button class="btn waves-effect waves-light" type="submit" name="buy" id="buy" value="BUY"  >BUY</button>
+			<button class="btn waves-effect waves-light green darken-4" type="submit" name="buy" id="buy" value="BUY"  >BUY</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn waves-effect waves-light" type="submit" name="sell" id="sell" value="SELL"  >SELL</button>
-
+			<button class="btn waves-effect waves-light  orange darken-4" type="submit" name="sell" id="sell" value="SELL"  >SELL</button>
+			<br><br><br>
+<button class="btn waves-effect waves-light  blue-grey darken-4 " formaction="/logout/" >LOGOUT</button>
 	</form>
+	
 </div>
 	
+
+
 <div>
 	<p id="response">
 		
@@ -140,8 +144,9 @@ function popitup(url) {
 
 
 
-					var response = $("#response1").html(data1);
-					Materialize.toast(response1, 4000);
+					// var response1 = $("#response1").html(data1);
+					Materialize.toast(data1, 4000 ,'rounded');
+					
 				}
 			});
 
@@ -168,8 +173,9 @@ function popitup(url) {
 				},
 				success : function(data1){
 					LoadQuantity();
-					var response = $("#response").html(data1);
-					Materialize.toast(response, 4000);
+					// var response = $("#response").html(data1);
+					Materialize.toast(data1, 4000 ,'rounded');
+					
 				}
 			});
 
@@ -179,39 +185,11 @@ function popitup(url) {
 
 			$.get('/currentquantity' , function(data){
 				$("#cq").html(data);
+				
 			});
 		}
 
-		
-	/*	$("#sellbuy-form").submit(function(e){
-			
-			e.preventDefault();
-
-
-			var dropdown = $("#dropdown").val();
-			var quantity = $("#quantity").val();
-			
-			
-
-			var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
-			
-			$.ajax({
-				type : 'POST' ,
-				url : '/sellbuy/' ,
-				data :{
-					dropdown : dropdown ,
-					quantity : quantity ,
-					button : button ,
-					csrfmiddlewaretoken : csrfmiddlewaretoken 
-
-				},
-				success : function(data1){
-					var response = $("#response").html(data1);
-					Materialize.toast(response, 4000);
-				}
-			});
-		});
-*/
+	
 
 	</script>
 </body>

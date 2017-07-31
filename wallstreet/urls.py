@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^register/', views.registerview.as_view() , name='register'),
     url(r'^login/', auth_views.login , name='login'),
+    url(r'^logout/', auth_views.logout , name='logout'),
     url(r'^login_check/', views.login_check , name='login_check'),
     url(r'^api/users/', api_views.users_api , name='users_api'),
     url(r'^api/shareprice/', api_views.share_api , name='share_api'),

@@ -15,12 +15,12 @@ class Share(models.Model):
 		return str(self.name)
 
 class SharePrice(models.Model):
-	share = models.ForeignKey('Share')
+	share = models.CharField(max_length=120,blank=True,null=True)
 	price = models.DecimalField(max_digits=20,decimal_places=2,default=1000.00)
 	time = 	models.TimeField()
 
 	def __str__(self):
-		return str(self.share.name)
+		return str(self.share)
 
 	class Meta:
 		get_latest_by = 'time'
