@@ -6,13 +6,14 @@
 	<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
 	<script src="/static/js/jquery-3.2.1.js"></script>
 </head>
-<body onload="LoadPrice()">
+<body onload="LoadPrice()" class="black white-text">
 <script src="/static/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="/static/js/materialize.min.js"></script>
  <script language="javascript" type="text/javascript">
 
   $(document).ready(function() {
   		LoadQuantity();
+  		CurrentHolding();
     $('select').material_select();
   });
 
@@ -30,6 +31,8 @@ function popitup(url) {
   if (window.focus) {newwindow.focus()}
   return false;
 }
+
+
 </script>
 
   
@@ -64,7 +67,7 @@ function popitup(url) {
       	
       </div>
       <div class="col s4">
-      	<table>
+      	<table >
       		<thead>
       			<th class="center">Quantity</th>
       		</thead>
@@ -75,7 +78,8 @@ function popitup(url) {
       	
       </div>
   </div>
-  <button class="btn waves-effect waves-light light-blue darken-4 " onclick="LoadPrice()">Refresh Price</button>
+  <button class="btn waves-effect waves-light teal accent-3 black-text " onclick="LoadPrice()">Refresh Price</button>
+  <span class="right"><strong>Current Holdings : </strong><span id="ch"></span></span>
 </div>
 <br>
 <div class="container input-field ">
@@ -89,13 +93,14 @@ function popitup(url) {
 			<br>
 			<input type="number" name="quantity" id="quantity">
 			<br><br>
-			<button class="btn waves-effect waves-light green darken-4" type="submit" name="buy" id="buy" value="BUY"  >BUY</button>
+			<button class="btn waves-effect waves-light  light-green accent-3 black-text" type="submit" name="buy" id="buy" value="BUY"  >BUY</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn waves-effect waves-light  orange darken-4" type="submit" name="sell" id="sell" value="SELL"  >SELL</button>
+			<button class="btn waves-effect waves-light red accent-4 black-text"  type="submit" name="sell" id="sell" value="SELL"  >SELL</button>
 			<br><br><br>
 <button class="btn waves-effect waves-light  blue-grey darken-4 " formaction="/logout/" >LOGOUT</button>
 	</form>
 	
+	<button class=" btn waves-effect waves-light right" onclick="return popitup('/usergraph/{{request.user}}')">Holdings Graph</button>
 </div>
 	
 
@@ -111,12 +116,19 @@ function popitup(url) {
 	</p>
 </div>
 
+
 	<script>
 
 		function LoadPrice(){
 			$.get('/currentprice',function(data){
 
 				$("#cp").html(data);
+			});
+		}
+
+		function CurrentHolding(){
+			$.get('/currentholding',function(data){
+				$("#ch").html(data);
 			});
 		}
 
@@ -141,10 +153,10 @@ function popitup(url) {
 				},
 				success : function(data1){
 					LoadQuantity();
+					CurrentHolding();
 
 
-
-					// var response1 = $("#response1").html(data1);
+					
 					Materialize.toast(data1, 4000 ,'rounded');
 					
 				}
@@ -173,7 +185,8 @@ function popitup(url) {
 				},
 				success : function(data1){
 					LoadQuantity();
-					// var response = $("#response").html(data1);
+					CurrentHolding();
+					
 					Materialize.toast(data1, 4000 ,'rounded');
 					
 				}

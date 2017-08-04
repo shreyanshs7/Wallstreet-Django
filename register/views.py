@@ -7,6 +7,8 @@ from django.views.generic import View
 from django.http import HttpResponse , HttpResponseRedirect , JsonResponse
 from django.core import serializers
 from django.contrib.auth.models import User
+from portfolio.models import *
+import datetime
 
 # Create your views here.
 @csrf_protect
@@ -50,6 +52,18 @@ class registerview(View):
 				email=email,
 				contact=contact)
 			userdetail.save()
+
+			user_holding = UserHolding.objects.create(
+				user_id=username,
+				time=datetime.datetime.now().time() 
+				)
+			user_holding.save()
+
+			current_holding = CurrentUserHolding.objects.create(
+				user_id=username)
+			current_holding.save()
+
+
 
 			return HttpResponseRedirect("/login")
 

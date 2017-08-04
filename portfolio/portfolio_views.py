@@ -3,6 +3,10 @@ from sellbuy.models import *
 from django.http import HttpResponse , HttpResponseRedirect
 from .models import *
 from django.contrib.auth.decorators import login_required
+from plotly.offline import plot
+from plotly.graph_objs import Bar
+import datetime
+
 
 # Create your views here.
 @login_required
@@ -12,28 +16,48 @@ def sellbuy(request):
 
 		share_choice = request.POST.get('dropdown')
 		quantity = int(request.POST.get('quantity'))
-		user = request.user
-		print(request.POST)
+		user = request.user.username
+		
+		user_holding_obj = CurrentUserHolding.objects.get(user_id=user)
+		current_holding = user_holding_obj.current_holdings
+
+		share_obj = Share.objects.get(name=share_choice)
+		share_price = share_obj.current_price
+
+
 		if quantity>int(0):
 
 			if request.POST.get("button") == "BUY":
-			
-
-				try:
-					buy_obj = portfolio.objects.get(share_id=share_choice,user_id=user)
-					buy_share_quantity = buy_obj.quantity
-
-					setattr(buy_obj , 'quantity' , buy_share_quantity+quantity)
-					buy_obj.save()
-
-
-				except portfolio.DoesNotExist:
 				
-					new_obj = portfolio.objects.create(share_id=share_choice,user_id=user,quantity=quantity)
+				if share_price*quantity < current_holding:
+
+					try:
+						buy_obj = portfolio.objects.get(share_id=share_choice,user_id=user)
+						buy_share_quantity = buy_obj.quantity
+
+						setattr(buy_obj , 'quantity' , buy_share_quantity+quantity)
+						buy_obj.save()
+
+						new_holding = current_holding-(share_price*quantity)
+
+						setattr(user_holding_obj , 'current_holdings' , new_holding)
+						user_holding_obj.save()
+
+						holding_obj = UserHolding.objects.create(user_id=user,time=datetime.datetime.now().time(),holdings=new_holding)
+						holding_obj.save()
+
+					except portfolio.DoesNotExist:
 				
+						new_obj = portfolio.objects.create(share_id=share_choice,user_id=user,quantity=quantity)
+						holding_obj = UserHolding.objects.create(user_id=user,time=datetime.datetime.now().time(),holdings=new_holding)
+						holding_obj.save()
 
 						
-				return HttpResponse("Share Bought")
+					return HttpResponse("Share Bought")
+
+				else:
+					return HttpResponse("Current Holding is less only "+str(int(current_holding/share_price))+" share can be bought")
+
 
 			if request.POST.get("button") == "SELL":
 				try:
@@ -41,9 +65,22 @@ def sellbuy(request):
 					sell_share_quantity = sell_obj.quantity
 			
 					if sell_share_quantity>=quantity:
+
+
 					
 						setattr(sell_obj, 'quantity' , sell_share_quantity-quantity)
 						sell_obj.save()
+
+						new_holding = current_holding+(share_price*quantity)
+
+						setattr(user_holding_obj , 'current_holdings' , current_holding+share_price*quantity)
+						user_holding_obj.save()
+
+						holding_obj = UserHolding.objects.create(user_id=user,time=datetime.datetime.now().time(),holdings=new_holding)
+						holding_obj.save()
+
+
+
 
 						return HttpResponse("Shares Sold")
 
@@ -56,7 +93,21 @@ def sellbuy(request):
 		else:
 			return HttpResponse("You cannot fool me :)")	
 
-					
+
+@login_required
+def profit_loss_graph(request,name):
+	print(name)
+	obj = UserHolding.objects.filter(user_id=name)
+
+	x=[]
+	y=[]
+
+	for o in obj:
+		x.append(o.time)
+		y.append(o.holdings)
+
+	return HttpResponse(plot([Bar(x=x, y=y)],auto_open=False,output_type='div'))	
+
 			
 				
 

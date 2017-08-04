@@ -5,4 +5,12 @@ from .models import *
 
 class portfolioAdmin(admin.ModelAdmin):
 	list_display = ['user_id','share_id','quantity']
-admin.site.register(portfolio,portfolioAdmin)	
+admin.site.register(portfolio,portfolioAdmin)
+
+class UserHoldingAdmin(admin.ModelAdmin):
+	list_display = ['user_id','time','holdings']
+admin.site.register(UserHolding,UserHoldingAdmin)	
+
+class CurrentUserHoldingAdmin(admin.ModelAdmin):
+	list_display = ['user_id','current_holdings']
+admin.site.register(CurrentUserHolding,CurrentUserHoldingAdmin)	
