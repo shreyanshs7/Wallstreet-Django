@@ -85,7 +85,7 @@ function popitup(url) {
 <div class="container input-field ">
 	<form  id="sellbuy-form">
 			{% csrf_token %}
-			<select name="dropdown" id="dropdown">
+			<div class="container center"><select name="dropdown" id="dropdown">
 				  {% for obj in share_obj %}
 				<option value="{{ obj.name }}">{{ obj.name }}</option>
 					{% endfor %}
@@ -93,14 +93,14 @@ function popitup(url) {
 			<br>
 			<input type="number" name="quantity" id="quantity">
 			<br><br>
-			<button class="btn waves-effect waves-light  light-green accent-3 black-text" type="submit" name="buy" id="buy" value="BUY"  >BUY</button>
+			<button class="btn waves-effect waves-light  light-green accent-3 black-text" type="submit" name="buy" id="buy" value="BUY"  ><strong>BUY</strong></button>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn waves-effect waves-light red accent-4 black-text"  type="submit" name="sell" id="sell" value="SELL"  >SELL</button>
+			<button class="btn waves-effect waves-light red accent-4 black-text"  type="submit" name="sell" id="sell" value="SELL"  ><strong>SELL</strong></button></div>
 			<br><br><br>
-<button class="btn waves-effect waves-light  blue-grey darken-4 " formaction="/logout/" >LOGOUT</button>
+<button class="btn waves-effect waves-light  blue-grey darken-4 " formaction="/logout/" ><strong>LOGOUT</strong></button>
 	</form>
 	
-	<button class=" btn waves-effect waves-light right" onclick="return popitup('/usergraph/{{request.user}}')">Holdings Graph</button>
+	<button class=" btn waves-effect waves-light right" onclick="return popitup('/usergraph/{{request.user}}')"><strong>Holdings Graph</strong></button>
 </div>
 	
 
