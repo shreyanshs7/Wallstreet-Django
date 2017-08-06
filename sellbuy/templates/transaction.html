@@ -85,7 +85,7 @@ function popitup(url) {
 <div class="container input-field ">
 	<form  id="sellbuy-form">
 			{% csrf_token %}
-			<div class="container center"><select name="dropdown" id="dropdown">
+			<div class="container"><select name="dropdown" id="dropdown">
 				  {% for obj in share_obj %}
 				<option value="{{ obj.name }}">{{ obj.name }}</option>
 					{% endfor %}

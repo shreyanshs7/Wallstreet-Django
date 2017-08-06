@@ -29,7 +29,7 @@ def sellbuy(request):
 
 			if request.POST.get("button") == "BUY":
 				
-				if share_price*quantity < current_holding:
+				if share_price*quantity <= current_holding:
 
 					try:
 						buy_obj = portfolio.objects.get(share_id=share_choice,user_id=user)
