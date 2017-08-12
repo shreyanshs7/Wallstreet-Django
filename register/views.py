@@ -11,6 +11,10 @@ from portfolio.models import *
 import datetime
 
 # Create your views here.
+def index(request):
+	return render(request,'index.html')
+
+
 @csrf_protect
 def login_check(request):
 	if request.user.is_authenticated():
