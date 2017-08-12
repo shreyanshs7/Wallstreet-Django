@@ -58,7 +58,7 @@ ROOT_URLCONF = 'wallstreet.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR , 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +128,8 @@ LOGIN_REDIRECT_URL = '/login_check'
 LOGIN_URL = '/login/'
 
 LOGOUT_REDIRECT_URL = '/login/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    
+]

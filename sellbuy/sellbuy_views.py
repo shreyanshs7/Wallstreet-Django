@@ -17,7 +17,7 @@ def share_price(request):
 	
 	
 
-	return render(request,"transaction.html",{"share_obj" :share_obj })
+	return render(request,"sellbuy/transaction.html",{"share_obj" :share_obj })
 
 @login_required
 def current_price(request):
