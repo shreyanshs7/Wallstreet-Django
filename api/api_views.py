@@ -33,3 +33,5 @@ def users_api(request):
 	users_api = json.dumps(users_list)	
 
 	return JsonResponse(users_api,safe=False)	
+
+	

@@ -9,6 +9,7 @@ from django.core import serializers
 from django.contrib.auth.models import User
 from portfolio.models import *
 import datetime
+from sellbuy.models import *
 
 # Create your views here.
 def index(request):
@@ -66,6 +67,17 @@ class registerview(View):
 			current_holding = CurrentUserHolding.objects.create(
 				user_id=username)
 			current_holding.save()
+
+			share_obj = Share.objects.all()
+
+			for obj in share_obj:
+				portfolio_obj = portfolio.objects.create(
+					share_id=obj.name,
+					user_id=username,
+					quantity=0
+					)
+				portfolio_obj.save()
+				
 
 
 

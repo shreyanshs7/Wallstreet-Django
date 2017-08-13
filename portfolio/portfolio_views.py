@@ -96,7 +96,7 @@ def sellbuy(request):
 
 @login_required
 def profit_loss_graph(request,name):
-	print(name)
+	
 	obj = UserHolding.objects.filter(user_id=name)
 
 	x=[]

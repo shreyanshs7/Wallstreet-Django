@@ -7,18 +7,29 @@
 	<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
 	<script src="/static/js/jquery-3.2.1.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/animate.css">
+	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-	
+
 </head>
 <body style="font-family: 'Raleway', sans-serif;">
 <script src="/static/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="/static/js/materialize.min.js"></script>
-
+<script type="text/javascript">
+	$(document).ready(function(){
+		 $(".button-collapse").sideNav();
+	});
+</script>
  <nav>
     <div class="nav-wrapper teal darken-3 ">
       <a href="#" class="brand-logo" style="margin-left: 70px;">E-Cell</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 70px;">
         <li><a href="{% url 'login' %}">LOGIN</a></li>
+        <li><a href="{% url 'register' %}">REGISTER</a></li>
+        <li><a href="#">DEVELOPERS</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+      	<li><a href="{% url 'login' %}">LOGIN</a></li>
         <li><a href="{% url 'register' %}">REGISTER</a></li>
         <li><a href="#">DEVELOPERS</a></li>
       </ul>
@@ -26,7 +37,7 @@
   </nav>
 <div class="teal darken-3 white-text" style="height:610px;">
 <br><br>
-  	<b><h1 class="animated zoomIn center lime-text">WALLSTREET</h1></b>
+  	<b><h1 class="animated zoomIn center lime-text">Wallstreet '17</h1></b>
   	<br>
   	<h5 class="center">"Everyone has the brainpower to follow the stock market. If you made it through fifth-grade math, you can do it."<br><br> - Peter Lynch </h5>
  <br>
