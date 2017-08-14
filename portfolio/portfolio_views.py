@@ -4,7 +4,7 @@ from django.http import HttpResponse , HttpResponseRedirect
 from .models import *
 from django.contrib.auth.decorators import login_required
 from plotly.offline import plot
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar , Scatter
 import datetime
 
 
@@ -106,7 +106,7 @@ def profit_loss_graph(request,name):
 		x.append(o.time)
 		y.append(o.holdings)
 
-	return HttpResponse(plot([Bar(x=x, y=y)],auto_open=False,output_type='div'))	
+	return HttpResponse(plot([Scatter(x=x, y=y)],auto_open=False,output_type='div'))	
 
 			
 				

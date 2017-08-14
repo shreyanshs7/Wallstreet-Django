@@ -2,10 +2,11 @@
 <html>
 <head>
 	{% load static %}
-	<title></title>
+	<title>WallStreet '17</title>
 	<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
-
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel="icon" href="/static/images/wallstreet-logo.png">
 	<script src="/static/js/jquery-3.2.1.js"></script>
 </head>
 <body onload="LoadPrice()" class="teal darken-3" >
@@ -39,7 +40,7 @@ function popitup(url) {
 
   <nav>
     <div class="nav-wrapper teal darken-3 ">
-      <span class="brand-logo lime-text" style="margin-left: 40px;">Wallstreet '17</span>
+      <span class="brand-logo lime-text" style="margin-left: 40px; font-family: 'Raleway', sans-serif;"><b>WallStreet '17</b></span>
       <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 70px;">
         <li><a onclick="return popitup('/usergraph/{{request.user}}')">HOLDINGS GRAPH</a></li>
         <li><a href="{% url 'logout' %}">LOGOUT</a></li>
@@ -61,7 +62,7 @@ function popitup(url) {
 			{% for obj in share_obj %}
 			<tr>
 		
-				<td><a href="/sharegraph/{{ obj.name }}" onclick="return popitup('/sharegraph/{{ obj.name }}')" class="black-text">{{ obj.name }}</a></td>
+				<td><a href="/sharegraph/{{ obj.name }}" onclick="return popitup('/sharegraph/{{ obj.name }}')" class="red-text">{{ obj.name }}</a></td>
 			</tr>
 			{% endfor %}
 			
@@ -131,6 +132,7 @@ function popitup(url) {
 			$.get('/currentprice',function(data){
 
 				$("#cp").html(data);
+
 			});
 		}
 
