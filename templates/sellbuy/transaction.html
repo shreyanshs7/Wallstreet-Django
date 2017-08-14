@@ -40,13 +40,18 @@ function popitup(url) {
 
   <nav>
     <div class="nav-wrapper teal darken-3 ">
-<<<<<<< HEAD
+
       <span class="brand-logo lime-text" style="margin-left: 40px; font-family: 'Raleway', sans-serif;"><b>WallStreet '17</b></span>
-=======
-      <span class="brand-logo lime-text" style="margin-left: 40px;">WallStreet '17</span>
->>>>>>> 2a06659bf7f61f5d78b4eb52af8b62b3e96dc10b
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+     
+
       <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 70px;">
         <li><a onclick="return popitup('/usergraph/{{request.user}}')">HOLDINGS GRAPH</a></li>
+        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+        <li><a href="#">LEADERBOARD</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+      	<li><a onclick="return popitup('/usergraph/{{request.user}}')">HOLDINGS GRAPH</a></li>
         <li><a href="{% url 'logout' %}">LOGOUT</a></li>
         <li><a href="#">LEADERBOARD</a></li>
       </ul>
