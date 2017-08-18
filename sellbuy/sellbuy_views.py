@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from portfolio.models import *
 from plotly.offline import plot
 from plotly.graph_objs import Bar , Scatter
-
+import datetime
 from django.core import serializers
 # Create your views here.
 
@@ -23,15 +23,32 @@ def share_price(request):
 def current_price(request):
 	share_obj = Share.objects.order_by("name")
 	
+	portfolio_obj = portfolio.objects.filter(user_id=request.user)
 
 	#left part for method for changing current price
 	
 
-	data=""
-	for obj in share_obj:
-		data+="<tr><td>"+ str(obj.current_price) +"</td></tr>"
 
-	return HttpResponse(data)			
+	data=""
+	share_worth = float(0)
+	for obj in share_obj:
+		data+="<tr><td class='center'>"+ str(obj.current_price) +"</td></tr>"
+		share_worth += float(obj.current_price)
+
+	total_quantity=int(0)	
+	for obj in portfolio_obj:
+		total_quantity += int(obj.quantity)
+
+	holdings = share_worth * total_quantity	
+	
+	#below line of code will be shifted in method for changing current price
+	#user_holding_obj = UserHolding.objects.create(user_id=request.user , time=datetime.datetime.now().time(), holdings=holdings)	
+		
+	return HttpResponse(data)
+
+
+
+
 @login_required
 def currentholding(request):
 	user = request.user
@@ -49,7 +66,7 @@ def current_quantity(request):
 
 	data=""
 	for obj in portfolio_obj:
-		data+="<tr><td>"+str(obj.quantity)+"</td></tr>"
+		data+="<tr><td class='center'>"+str(obj.quantity)+"</td></tr>"
 
 	return HttpResponse(data)	
 

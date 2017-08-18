@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'sellbuy',
     'api',
     'portfolio',
+    'leaderboard',
 ]
 
 MIDDLEWARE = [

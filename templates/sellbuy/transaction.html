@@ -5,7 +5,8 @@
 	<title>WallStreet '17</title>
 	<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="icon" href="/static/images/wallstreet-logo.png">
 	<script src="/static/js/jquery-3.2.1.js"></script>
 </head>
@@ -18,6 +19,7 @@
   		LoadQuantity();
   		CurrentHolding();
     $('select').material_select();
+    $(".button-collapse").sideNav();
   });
 
 function popitup(url) {
@@ -48,21 +50,55 @@ function popitup(url) {
       <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 70px;">
         <li><a onclick="return popitup('/usergraph/{{request.user}}')">HOLDINGS GRAPH</a></li>
         <li><a href="{% url 'logout' %}">LOGOUT</a></li>
-        <li><a href="#">LEADERBOARD</a></li>
+        <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
       	<li><a onclick="return popitup('/usergraph/{{request.user}}')">HOLDINGS GRAPH</a></li>
         <li><a href="{% url 'logout' %}">LOGOUT</a></li>
-        <li><a href="#">LEADERBOARD</a></li>
+        <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
       </ul>
     </div>
   </nav>
 <br>
 
-<div class="container">
+<div  style="width: 1200px; margin-left: 70px;">
 <div class="card">
 <div class="card-content">
 	 <div class="row">
+	 	<div class="col s4">
+	 		<h5 class="" style="margin-left: 68px;">Welcome <b class="blue-text text-darken-3	">{{ request.user }}</b></h5>
+	 		<hr width="170" class="left" style="margin-left: 60px;">
+	 		<br><br>
+	 		<h6 class="" style=" font-size: 30px; margin-left: 40px;"><b>Money - </b><span id="ch" class="green-text"></span></h6>
+	 		<br>
+	 		
+	 		<br><br>
+	 		
+	<form >
+		<span style="margin-left: 55px; "><b>Share :</b></span>
+			{% csrf_token %}
+			<div class="container"><select name="dropdown" id="dropdown">
+				  {% for obj in share_obj %}
+				<option value="{{ obj.name }}">{{ obj.name }}</option>
+					{% endfor %}
+			</select>
+			<br>
+			<span ><b>Quantity :</b></span>
+				<input type="number" name="quantity" id="quantity" placeholder="0">
+			<br><br>
+			<div class="center"><button class="btn waves-effect waves-light  light-green accent-4 black-text" type="submit" name="buy" id="buy" value="BUY"  ><b>BUY</b></button>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="btn waves-effect waves-light red accent-4 black-text"  type="submit" name="sell" id="sell" value="SELL"><b>SELL</b></button></div>
+			</div>
+			
+
+	</form>
+	
+	
+
+	 	</div>
+	 	<div class="col s8">
+	 		<div class="row">
 	   <div class="col s4">
 		<table class="centered" >
 			<thead class="center">
@@ -84,9 +120,9 @@ function popitup(url) {
       		<thead>
       			<th class="center">Share Price</th>
       		</thead>
-      		<tr id="cp">
+      		<tbody id="cp">
       		
-      		</tr>
+      		</tbody>
       	</table>
       	
       	
@@ -96,38 +132,21 @@ function popitup(url) {
       		<thead>
       			<th class="center">Quantity</th>
       		</thead>
-      		<tr id="cq" >
+      		<tbody id="cq" >
       		
-      		</tr>
+      		</tbody>
       	</table>
       	
       </div>
   </div>
-  <button class="btn waves-effect waves-light blue-grey black-text " onclick="LoadPrice()" style="margin-left: 40px;"><b>Refresh Price</b></button>
-  <h6 class="right" style="margin-right: 30px;"><b>Current Holdings : </b><span id="ch"></span></h6>
+  	<button class="btn waves-effect waves-light blue-grey black-text " style="margin-left: 290px;" onclick="LoadPrice()" ><b>Refresh Price</b></button>
+	 	</div>
+	 </div>
+  
+  
 </div>
-<br>
-<div class="container input-field ">
-	<form  id="sellbuy-form">
-			{% csrf_token %}
-			<div class="container"><select name="dropdown" id="dropdown">
-				  {% for obj in share_obj %}
-				<option value="{{ obj.name }}">{{ obj.name }}</option>
-					{% endfor %}
-			</select>
-			<br>
-			<input type="number" name="quantity" id="quantity">
-			<br><br>
-			<div class="center"><button class="btn waves-effect waves-light  light-green accent-4 black-text" type="submit" name="buy" id="buy" value="BUY"  ><b>BUY</b></button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="btn waves-effect waves-light red accent-4 black-text"  type="submit" name="sell" id="sell" value="SELL"  ><b>SELL</b></button></div>
-			</div>
-			<br><br><br>
 
-	</form>
-	
-	
-</div>
+
 </div>
 </div>	
 
@@ -150,6 +169,7 @@ function popitup(url) {
 				$("#ch").html(data);
 			});
 		}
+
 
 		$("#buy").click(function(e){
 			

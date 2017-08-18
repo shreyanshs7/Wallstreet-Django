@@ -43,14 +43,12 @@ def sellbuy(request):
 						setattr(user_holding_obj , 'current_holdings' , new_holding)
 						user_holding_obj.save()
 
-						holding_obj = UserHolding.objects.create(user_id=user,time=datetime.datetime.now().time(),holdings=new_holding)
-						holding_obj.save()
+						
 
 					except portfolio.DoesNotExist:
 				
 						new_obj = portfolio.objects.create(share_id=share_choice,user_id=user,quantity=quantity)
-						holding_obj = UserHolding.objects.create(user_id=user,time=datetime.datetime.now().time(),holdings=new_holding)
-						holding_obj.save()
+						
 
 						
 					return HttpResponse("Share Bought")
@@ -76,8 +74,7 @@ def sellbuy(request):
 						setattr(user_holding_obj , 'current_holdings' , current_holding+share_price*quantity)
 						user_holding_obj.save()
 
-						holding_obj = UserHolding.objects.create(user_id=user,time=datetime.datetime.now().time(),holdings=new_holding)
-						holding_obj.save()
+						
 
 
 

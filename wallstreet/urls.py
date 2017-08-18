@@ -22,6 +22,7 @@ from django.contrib.auth import views as auth_views
 from portfolio import portfolio_views
 from django.conf import settings
 from django.conf.urls.static import static
+from leaderboard import leaderboard_views   
 
 
 urlpatterns = [
@@ -40,6 +41,8 @@ urlpatterns = [
     url(r'^currentquantity/', sellbuy_views.current_quantity , name='current_quantity'),
     url(r'^usergraph/(?P<name>\w+)/', portfolio_views.profit_loss_graph , name='profit_loss_graph'),
     url(r'^currentholding/', sellbuy_views.currentholding , name='current_holding'),
+    url(r'^leaderboard/', leaderboard_views.leaderboard , name='leaderboard'),
+    url(r'^leaderboard_update', leaderboard_views.leaderboard_update , name='leaderboard_update'),
     
 
 ]
