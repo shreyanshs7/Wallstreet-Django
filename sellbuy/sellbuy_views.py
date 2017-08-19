@@ -74,7 +74,8 @@ def current_quantity(request):
 
 @login_required
 def sharegraph(request,name):
-	share_price_obj = SharePrice.objects.filter(share=name)
+	share_obj = Share.objects.get(name=name)
+	share_price_obj = SharePrice.objects.filter(share=share_obj)
 	x=[]
 	y=[]
 

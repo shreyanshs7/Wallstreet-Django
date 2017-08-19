@@ -15,11 +15,10 @@ class Share(models.Model):
 		return str(self.name)
 
 class SharePrice(models.Model):
-	share = models.CharField(max_length=120,blank=True,null=True)
+	share = models.ForeignKey('Share')
 	price = models.DecimalField(max_digits=20,decimal_places=2,default=1000.00)
 	time = 	models.TimeField()
 
-	def __str__(self):
-		return str(self.share)
+	
 
 	

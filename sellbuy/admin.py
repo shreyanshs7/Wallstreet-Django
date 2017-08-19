@@ -7,5 +7,5 @@ class ShareAdmin(admin.ModelAdmin):
 admin.site.register(Share,ShareAdmin)	
 
 class SharePriceAdmin(admin.ModelAdmin):
-	list_display = ['__str__','price','time']
+	list_display = ['share','price','time']
 admin.site.register(SharePrice,SharePriceAdmin)	
