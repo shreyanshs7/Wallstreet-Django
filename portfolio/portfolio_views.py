@@ -38,11 +38,11 @@ def sellbuy(request):
 						setattr(buy_obj , 'quantity' , buy_share_quantity+quantity)
 						buy_obj.save()
 
-						new_holding = current_holding-(share_price*quantity)
+						cash_in_hand = current_holding-(share_price*quantity)
 
-						setattr(user_holding_obj , 'current_holdings' , new_holding)
+						setattr(user_holding_obj , 'current_holdings' , cash_in_hand)
 						user_holding_obj.save()
-
+						
 						
 
 					except portfolio.DoesNotExist:
@@ -69,7 +69,7 @@ def sellbuy(request):
 						setattr(sell_obj, 'quantity' , sell_share_quantity-quantity)
 						sell_obj.save()
 
-						new_holding = current_holding+(share_price*quantity)
+						cash_in_hand = current_holding+(share_price*quantity)
 
 						setattr(user_holding_obj , 'current_holdings' , current_holding+share_price*quantity)
 						user_holding_obj.save()
