@@ -156,7 +156,12 @@ function popitup(url) {
 
 	<script>
 
+	setInterval(function(){
+		LoadPrice();
+	},15000);
+
 		function LoadPrice(){
+			
 			$.get('/currentprice',function(data){
 
 				$("#cp").html(data);

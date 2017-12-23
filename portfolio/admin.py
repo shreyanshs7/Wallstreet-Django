@@ -14,3 +14,7 @@ admin.site.register(UserHolding,UserHoldingAdmin)
 class CurrentUserHoldingAdmin(admin.ModelAdmin):
 	list_display = ['user_id','current_holdings']
 admin.site.register(CurrentUserHolding,CurrentUserHoldingAdmin)	
+
+class TransactionAdmin(admin.ModelAdmin):
+	list_display = ['share','transaction']
+admin.site.register(Transaction,TransactionAdmin)	

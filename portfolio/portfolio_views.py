@@ -24,6 +24,7 @@ def sellbuy(request):
 		share_obj = Share.objects.get(name=share_choice)
 		share_price = share_obj.current_price
 
+		
 
 		if quantity>int(0):
 
@@ -32,6 +33,11 @@ def sellbuy(request):
 				if share_price*quantity <= current_holding:
 
 					try:
+
+						transaction_obj = Transaction.objects.create(share=share_choice,transaction='BY')
+						transaction_obj.save()
+
+
 						buy_obj = portfolio.objects.get(share_id=share_choice,user_id=user)
 						buy_share_quantity = buy_obj.quantity
 
@@ -64,7 +70,8 @@ def sellbuy(request):
 			
 					if sell_share_quantity>=quantity:
 
-
+						transaction_obj = Transaction.objects.create(share=share_choice,transaction='SL')
+						transaction_obj.save()
 					
 						setattr(sell_obj, 'quantity' , sell_share_quantity-quantity)
 						sell_obj.save()

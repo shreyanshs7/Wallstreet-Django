@@ -8,7 +8,9 @@ from plotly.offline import plot
 from plotly.graph_objs import Bar , Scatter
 import datetime
 from django.core import serializers
-# Create your views here.
+import random
+
+
 
 @login_required
 def share_price(request):
@@ -22,27 +24,66 @@ def share_price(request):
 @login_required
 def current_price(request):
 	share_obj = Share.objects.order_by("name")
+	shares = Share.objects.all() 
+	
+	for share in shares:
+		temp_share_buy = Transaction.objects.filter(share=share,transaction='BY').exists()
+		temp_share_sell = Transaction.objects.filter(share=share,transaction='SL').exists()
+
+		if temp_share_sell or temp_share_buy:
+			temp_share_buy_count = Transaction.objects.filter(share=share,transaction='BY').count()
+			temp_share_sell_count = Transaction.objects.filter(share=share,transaction='SL').count()
+
+			if temp_share_buy_count > temp_share_sell_count:
+				share_price = (share.current_price) * (1 + random.uniform(0.1,0.5))
+				
+				if share_price>float(25000):
+					share_price = (share_price) * (random.uniform(0.1,0.3))
+				
+				new_share = SharePrice.objects.create(share=share,price=share_price)
+				new_share.save()
+				
+				setattr(share,'current_price',share_price)
+				share.save()
+
+			else:
+				share_price = (share.current_price) * (random.uniform(0.1,0.5))
+				
+				if share_price < float(200):
+					share_price = (share_price) * (1 + random.uniform(0.1,0.3))
+
+				new_share = SharePrice.objects.create(share=share,price=share_price)
+				new_share.save()
+
+				setattr(share,'current_price',share_price)
+				share.save()
 	
 	portfolio_obj = portfolio.objects.filter(user_id=request.user)
-
-	#left part for method for changing current price
 	
+
+	total_share_value = float(0)
+	total_quantity = float(0)
+
+	for obj in portfolio_obj:
+
+		temp_share = Share.objects.get(name=obj.share_id)
+		total_share_value += temp_share.current_price
+		total_quantity += obj.quantity
+
+	holdings = float(total_share_value) * float(total_quantity)	
+
+	user_holding_obj = UserHolding.objects.create(user_id=str(request.user),holdings=holdings)
+	user_holding_obj.save()	
 
 
 	data=""
-	share_worth = float(0)
+	
 	for obj in share_obj:
 		data+="<tr><td class='center'>"+ str(obj.current_price) +"</td></tr>"
-		share_worth += float(obj.current_price)
+			
 
-	total_quantity=int(0)	
-	for obj in portfolio_obj:
-		total_quantity += int(obj.quantity)
-
-	holdings = share_worth * total_quantity	
 	
-	#below line of code will be shifted in method for changing current price
-	#user_holding_obj = UserHolding.objects.create(user_id=request.user , time=datetime.datetime.now().time(), holdings=holdings)	
+		
 		
 	return HttpResponse(data)
 
